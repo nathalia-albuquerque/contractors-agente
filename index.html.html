@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Segoe UI", sans-serif;
+    background: transparent;
+  }
+
+  .agente-wrap {
+    background: #1B3A6B;
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .agente-label {
+    color: #F5A800;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .agente-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #F5A800;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .agente-titulo {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .agente-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 24px;
+    border: none;
+    font-size: 13px;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    outline: none;
+    transition: background 0.2s;
+  }
+
+  .search-input::placeholder { color: rgba(255,255,255,0.4); }
+  .search-input:focus { background: rgba(255,255,255,0.18); }
+
+  .search-btn {
+    background: #F5A800;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    color: #1B3A6B;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+
+  .search-btn:hover { opacity: 0.9; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .chip {
+    background: rgba(255,255,255,0.1);
+    border: 0.5px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .chip:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+  .resultado {
+    display: none;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 3px solid #F5A800;
+  }
+
+  .resultado.visivel { display: block; }
+
+  .resultado-titulo {
+    color: #F5A800;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+  }
+
+  .resultado-texto {
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .resultado-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .resultado-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #F5A800;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(245,168,0,0.08);
+    transition: background 0.15s;
+  }
+
+  .resultado-link:hover { background: rgba(245,168,0,0.18); }
+
+  .resultado-link-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .sem-resultado {
+    display: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .sem-resultado.visivel { display: block; }
+
+  .sem-resultado a {
+    color: #F5A800;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="agente-wrap">
+  <div class="agente-label">
+    <div class="agente-dot"></div>
+    Assistente inteligente
+  </div>
+  <div class="agente-titulo">Como podemos te ajudar?</div>
+  <div class="agente-sub">Pesquise por um erro, funcionalidade ou dúvida sobre o CHRContractors</div>
+
+  <div class="search-row">
+    <input
+      type="text"
+      class="search-input"
+      id="busca"
+      placeholder="Ex: erro ao salvar, como cadastrar terceiro..."
+      onkeydown="if(event.key==='Enter') buscar()"
+    />
+    <button class="search-btn" onclick="buscar()">Buscar</button>
+  </div>
+
+  <div class="chips">
+    <div class="chip" onclick="preencher('erro ao salvar registro')">Erro ao salvar</div>
+    <div class="chip" onclick="preencher('cadastrar terceiro')">Cadastrar terceiro</div>
+    <div class="chip" onclick="preencher('carga em lote')">Carga em lote</div>
+    <div class="chip" onclick="preencher('integração SAP HCM')">Integração SAP</div>
+    <div class="chip" onclick="preencher('relatório contractors')">Relatórios</div>
+    <div class="chip" onclick="preencher('nova versão release')">Releases</div>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <div class="resultado-titulo" id="res-titulo"></div>
+    <div class="resultado-texto" id="res-texto"></div>
+    <div class="resultado-links" id="res-links"></div>
+  </div>
+
+  <div class="sem-resultado" id="sem-resultado">
+    Não encontrei um artigo específico para essa busca.<br>
+    <a href="https://chreative.desk.ms" target="_blank">Abrir um chamado no portal →</a>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// BASE DE CONHECIMENTO — edite aqui para adicionar
+// novas respostas. Cada item tem:
+//   - palavras: lista de termos que ativam a resposta
+//   - titulo: aparece em destaque no resultado
+//   - texto: explicação para o cliente
+//   - links: array de { label, url } com documentos
+// =====================================================
+const BASE = [
+  {
+    palavras: ["erro ao salvar", "salvar registro", "nao salva", "não salva", "falha salvar", "erro salvar"],
+    titulo: "Erro ao salvar registro",
+    texto: "Erros ao salvar geralmente ocorrem por campos obrigatórios em branco, CPF duplicado no sistema ou perda de sessão. Verifique se todos os campos obrigatórios estão preenchidos e se o CPF já não existe em outro registro ativo. Em caso de erro de integração, consulte a transação SM58 no SAP.",
+    links: [
+      { label: "Manual de Instrução SAP — seção Erros Comuns", url: "#" },
+      { label: "Cenário de Teste CHRContractors — TC-012", url: "#" }
+    ]
+  },
+  {
+    palavras: ["cadastrar terceiro", "novo terceiro", "cadastro terceiro", "adicionar terceiro", "incluir terceiro"],
+    titulo: "Como cadastrar um novo terceiro",
+    texto: "Para cadastrar um novo terceiro no CHRContractors Web, acesse o módulo de Cadastro → Terceiros → Novo. Preencha os dados obrigatórios: CPF, nome, empresa contratante, data de início do contrato e tipo de vínculo. Após salvar, o registro será enviado automaticamente para o SAP HCM via integração.",
+    links: [
+      { label: "Manual de Instrução Web — Cadastro de Terceiros", url: "#" },
+      { label: "Manual de Instrução SAP — Recebimento de Dados", url: "#" }
+    ]
+  },
+  {
+    palavras: ["carga em lote", "importar", "upload", "template carga", "planilha carga", "massa"],
+    titulo: "Carga em lote de terceiros",
+    texto: "Para importar múltiplos terceiros de uma vez, utilize o Template de Carga disponível para download. O arquivo deve estar no formato .xlsx com todas as colunas obrigatórias preenchidas. Após preencher, acesse CHRContractors Web → Importação → selecione o arquivo e clique em Processar.",
+    links: [
+      { label: "Template Carga — Download", url: "#" },
+      { label: "Manual de Instrução Web — Importação em Lote", url: "#" }
+    ]
+  },
+  {
+    palavras: ["integração", "sap hcm", "integração sap", "sincronizar", "nao aparece no sap", "não aparece no sap"],
+    titulo: "Integração CHRContractors ↔ SAP HCM",
+    texto: "A integração entre o CHRContractors e o SAP HCM é feita via RFC em tempo real. Se um registro não aparecer no SAP após ser salvo no CHRContractors, verifique: (1) a transação SM58 no SAP para erros de envio, (2) se o CPF do terceiro já existe como empregado ativo na PA30, (3) se a empresa do terceiro está parametrizada na tabela de mapeamento.",
+    links: [
+      { label: "Arquiteturas — Fluxo de Integração", url: "#" },
+      { label: "Release 1.34 — Melhorias de Integração", url: "#" }
+    ]
+  },
+  {
+    palavras: ["relatorio", "relatório", "consultar", "consulta", "exportar", "lista terceiros"],
+    titulo: "Relatórios e consultas",
+    texto: "Os relatórios de terceiros estão disponíveis no módulo Consultas do CHRContractors Web. Filtre por período, empresa, status do contrato ou tipo de vínculo. Para exportar, clique em 'Exportar para Excel' após aplicar os filtros desejados.",
+    links: [
+      { label: "Manual de Instrução Web — Módulo Consultas", url: "#" }
+    ]
+  },
+  {
+    palavras: ["release", "versao", "versão", "atualização", "novidade", "changelog", "1.34"],
+    titulo: "Histórico de versões e releases",
+    texto: "A versão atual do CHRContractors é a 1.34. As notas de cada release contêm as funcionalidades adicionadas, bugs corrigidos e orientações de atualização. Consulte o documento de Release 1.34 para ver o que mudou na versão atual.",
+    links: [
+      { label: "Release 1.34 — Notas de Versão", url: "#" },
+      { label: "Arquiteturas — Documento Técnico", url: "#" }
+    ]
+  },
+  {
+    palavras: ["wizard", "contrato", "checklist wizard", "configurar wizard"],
+    titulo: "CHRContractors Wizard",
+    texto: "O Wizard do CHRContractors guia o preenchimento passo a passo do contrato de terceiros. Certifique-se de completar todas as etapas obrigatórias antes de finalizar — campos em vermelho indicam pendências. Consulte o checklist de revisão do Wizard para validar cada campo.",
+    links: [
+      { label: "Checklist de Revisão — CHRContractors Wizard", url: "#" },
+      { label: "Manual de Instrução Web — Wizard", url: "#" }
+    ]
+  },
+  {
+    palavras: ["senha", "login", "acesso", "entrar", "não consigo acessar", "nao consigo acessar"],
+    titulo: "Problemas de acesso e login",
+    texto: "Se não conseguir acessar o CHRContractors, verifique: (1) se seu usuário está ativo no sistema — entre em contato com o administrador, (2) se está usando o endereço correto do ambiente (produção ou homologação), (3) se o navegador está atualizado (recomendamos Chrome ou Edge).",
+    links: [
+      { label: "Abertura de Chamados — Portal do Solicitante", url: "https://chreative.desk.ms" }
+    ]
+  }
+];
+
+function normalizar(texto) {
+  return texto.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ");
+}
+
+function buscar() {
+  const query = normalizar(document.getElementById("busca").value.trim());
+  const resDiv = document.getElementById("resultado");
+  const semDiv = document.getElementById("sem-resultado");
+
+  resDiv.classList.remove("visivel");
+  semDiv.classList.remove("visivel");
+
+  if (!query || query.length < 2) return;
+
+  let melhorMatch = null;
+  let melhorPontos = 0;
+
+  for (const item of BASE) {
+    let pontos = 0;
+    for (const palavra of item.palavras) {
+      if (query.includes(normalizar(palavra))) {
+        pontos += palavra.split(" ").length;
+      }
+    }
+    if (pontos > melhorPontos) {
+      melhorPontos = pontos;
+      melhorMatch = item;
+    }
+  }
+
+  if (melhorMatch) {
+    document.getElementById("res-titulo").textContent = melhorMatch.titulo;
+    document.getElementById("res-texto").textContent = melhorMatch.texto;
+
+    const linksDiv = document.getElementById("res-links");
+    linksDiv.innerHTML = melhorMatch.links.map(l =>
+      `<a class="resultado-link" href="${l.url}" target="_blank">
+        <svg class="resultado-link-icon" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="1" width="10" height="13" rx="1.5" fill="#F5A800" opacity="0.8"/>
+          <rect x="4" y="5" width="6" height="1" rx="0.5" fill="#1B3A6B"/>
+          <rect x="4" y="7.5" width="5" height="1" rx="0.5" fill="#1B3A6B"/>
+          <rect x="4" y="10" width="4" height="1" rx="0.5" fill="#1B3A6B"/>
+        </svg>
+        ${l.label}
+      </a>`
+    ).join("");
+
+    resDiv.classList.add("visivel");
+  } else {
+    semDiv.classList.add("visivel");
+  }
+}
+
+function preencher(termo) {
+  document.getElementById("busca").value = termo;
+  buscar();
+}
+</script>
+
+</body>
+</html>
