@@ -6,311 +6,172 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Segoe UI", sans-serif; background: transparent; }
-
-  .agente-wrap {
-    background: #1B3A6B;
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-
-  .agente-label {
-    color: #F5A800;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .agente-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #F5A800;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
+  .agente-wrap { background: #1B3A6B; border-radius: 12px; padding: 20px 24px; }
+  .agente-label { color: #F5A800; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .agente-dot { width: 7px; height: 7px; border-radius: 50%; background: #F5A800; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   .agente-titulo { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
   .agente-sub { color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 14px; }
-
   .search-row { display: flex; gap: 8px; margin-bottom: 10px; }
-
-  .search-input {
-    flex: 1;
-    padding: 10px 16px;
-    border-radius: 24px;
-    border: none;
-    font-size: 13px;
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    outline: none;
-    transition: background 0.2s;
-  }
+  .search-input { flex: 1; padding: 10px 16px; border-radius: 24px; border: none; font-size: 13px; background: rgba(255,255,255,0.12); color: #fff; outline: none; transition: background 0.2s; }
   .search-input::placeholder { color: rgba(255,255,255,0.4); }
   .search-input:focus { background: rgba(255,255,255,0.18); }
-
-  .search-btn {
-    background: #F5A800;
-    border: none;
-    border-radius: 24px;
-    padding: 10px 20px;
-    color: #1B3A6B;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-  }
+  .search-btn { background: #F5A800; border: none; border-radius: 24px; padding: 10px 20px; color: #1B3A6B; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
   .search-btn:hover { opacity: 0.9; }
-
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-  .chip {
-    background: rgba(255,255,255,0.1);
-    border: 0.5px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.8);
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 11px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
+  .chip { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); padding: 4px 12px; border-radius: 12px; font-size: 11px; cursor: pointer; transition: background 0.15s; }
   .chip:hover { background: rgba(255,255,255,0.2); color: #fff; }
-
-  .resultado {
-    display: none;
-    background: rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 14px 16px;
-    border-left: 3px solid #F5A800;
-  }
+  .resultado { display: none; background: rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 16px; border-left: 3px solid #F5A800; }
   .resultado.visivel { display: block; }
-
-  .resultado-titulo {
-    color: #F5A800;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-bottom: 6px;
-  }
-
-  .resultado-texto {
-    color: rgba(255,255,255,0.9);
-    font-size: 12px;
-    line-height: 1.7;
-    margin-bottom: 10px;
-    white-space: pre-line;
-  }
-
-  .resultado-obs {
-    background: rgba(245,168,0,0.1);
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: rgba(255,255,255,0.75);
-    font-size: 11px;
-    line-height: 1.5;
-    margin-bottom: 10px;
-    border-left: 2px solid #F5A800;
-  }
-
+  .resultado-titulo { color: #F5A800; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .resultado-texto { color: rgba(255,255,255,0.9); font-size: 12px; line-height: 1.7; margin-bottom: 10px; white-space: pre-line; }
+  .resultado-obs { background: rgba(245,168,0,0.1); border-radius: 8px; padding: 8px 12px; color: rgba(255,255,255,0.75); font-size: 11px; line-height: 1.5; margin-bottom: 10px; border-left: 2px solid #F5A800; }
   .resultado-links { display: flex; flex-direction: column; gap: 6px; }
-  .resultado-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #F5A800;
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: rgba(245,168,0,0.08);
-    transition: background 0.15s;
-  }
+  .resultado-link { display: flex; align-items: center; gap: 8px; color: #F5A800; font-size: 12px; text-decoration: none; padding: 6px 10px; border-radius: 8px; background: rgba(245,168,0,0.08); transition: background 0.15s; }
   .resultado-link:hover { background: rgba(245,168,0,0.18); }
-
   .sem-resultado { display: none; color: rgba(255,255,255,0.6); font-size: 12px; text-align: center; padding: 12px; }
   .sem-resultado.visivel { display: block; }
-  .sem-resultado a { color: #F5A800; text-decoration: underline; cursor: pointer; }
+  .sem-resultado a { color: #F5A800; text-decoration: underline; }
 </style>
 </head>
 <body>
-
 <div class="agente-wrap">
-  <div class="agente-label">
-    <div class="agente-dot"></div>
-    Assistente inteligente — CHRContractors
-  </div>
+  <div class="agente-label"><div class="agente-dot"></div>Assistente inteligente — CHRContractors</div>
   <div class="agente-titulo">Como podemos te ajudar?</div>
   <div class="agente-sub">Pesquise por um erro, funcionalidade ou dúvida sobre o CHRContractors</div>
-
   <div class="search-row">
-    <input type="text" class="search-input" id="busca"
-      placeholder="Ex: treinamento indevido, SAP User ID, inativar terceiro..."
-      onkeydown="if(event.key==='Enter') buscar()" />
+    <input type="text" class="search-input" id="busca" placeholder="Ex: treinamento indevido, SAP User ID, documento DMS..." onkeydown="if(event.key==='Enter') buscar()" />
     <button class="search-btn" onclick="buscar()">Buscar</button>
   </div>
-
   <div class="chips">
     <div class="chip" onclick="preencher('treinamento indevido carteirinha')">Treinamento indevido</div>
-    <div class="chip" onclick="preencher('SAP User ID atividade')">SAP User ID</div>
-    <div class="chip" onclick="preencher('inativar terceiro PA30')">Inativar terceiro</div>
-    <div class="chip" onclick="preencher('usuario nao existe no periodo')">Usuário não existe no período</div>
-    <div class="chip" onclick="preencher('encerrar atividade')">Encerrar atividade</div>
+    <div class="chip" onclick="preencher('sap user id atividade')">SAP User ID</div>
+    <div class="chip" onclick="preencher('inativar terceiro pa30')">Inativar terceiro</div>
+    <div class="chip" onclick="preencher('data aso incorreta')">Data ASO incorreta</div>
+    <div class="chip" onclick="preencher('rulag elegibilidade')">Erro RULAG</div>
+    <div class="chip" onclick="preencher('dms repositorio documento')">Erro DMS</div>
+    <div class="chip" onclick="preencher('caractere especial documento')">Caractere especial</div>
+    <div class="chip" onclick="preencher('cpf nao exibido')">CPF não exibido</div>
+    <div class="chip" onclick="preencher('pgr documento desaparece')">PGR desaparece</div>
+    <div class="chip" onclick="preencher('transferencia contrato travada')">Transferência travada</div>
   </div>
-
   <div class="resultado" id="resultado">
     <div class="resultado-titulo" id="res-titulo"></div>
     <div class="resultado-texto" id="res-texto"></div>
     <div class="resultado-obs" id="res-obs" style="display:none"></div>
     <div class="resultado-links" id="res-links"></div>
   </div>
-
   <div class="sem-resultado" id="sem-resultado">
     Não encontrei um artigo específico para essa busca.<br>
     <a href="https://chreative.desk.ms" target="_blank">Abrir um chamado no portal →</a>
   </div>
 </div>
-
 <script>
 const BASE = [
   {
-    palavras: [
-      "treinamento indevido", "carteirinha", "carteira de autorização",
-      "treinamento aparece", "remover treinamento", "exame outros",
-      "documentos obrigatórios", "nr", "norma regulamentadora", "outros 26"
-    ],
+    palavras: ["treinamento indevido","carteirinha","carteira de autorizacao","exame outros","documentos obrigatorios","nr","norma regulamentadora","outros 26","treinamento aparece","remover treinamento"],
     titulo: "Treinamento indevido aparece na carteirinha do terceiro",
-    texto: `Sintoma: Um treinamento que o terceiro não possui aparece na Carteirinha e não é possível identificar de onde vem.
-
-Causa: O documento estava vinculado ao tipo OUTROS (26). Como o exame OUTROS foi excluído, o treinamento deixou de aparecer na lista de documentos obrigatórios, mas continuou na carteirinha por ter sido anexado anteriormente.
-
-Solução:
-1. Voltar o Exame OUTROS (26) nos dados do terceiro — o documento voltará a aparecer
-2. Localizar o documento com a descrição do treinamento indevido
-3. Eliminar o documento e sua descrição
-4. Remover o OUTROS do exame se não for mais necessário`,
-    obs: "Quando um treinamento indevido aparecer na carteirinha, verifique nos documentos obrigatórios do tipo OUTROS se há algum documento anexado com a descrição desse treinamento.",
-    links: [{ label: "Abrir chamado no portal", url: "https://chreative.desk.ms" }]
+    texto: `Sintoma: Um treinamento que o terceiro não possui aparece na Carteirinha.\n\nCausa: O documento estava vinculado ao tipo OUTROS (26). Como o exame OUTROS foi excluído, continuou aparecendo na carteirinha.\n\nSolução:\n1. Voltar o Exame OUTROS (26) nos dados do terceiro\n2. Localizar o documento com a descrição do treinamento indevido\n3. Eliminar o documento e sua descrição\n4. Remover o OUTROS do exame se não for mais necessário`,
+    obs: "Verificar nos documentos obrigatórios do tipo OUTROS se há algum documento anexado com a descrição do treinamento indevido.",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
   },
   {
-    palavras: [
-      "sap user id", "encerrar atividade", "encerrar", "nova atividade", "nao permite encerramento",
-      "nao permite", "bloqueando", "credenciais", "novo contrato", "campo sap user",
-      "usuario nao existe no periodo", "nao existe no periodo", "nao existe",
-      "usuario nao existe", "periodo", "chrs", "com_app0003", "dados mestre", "dados pessoais",
-      "atividade bloqueada", "criar atividade", "concessao de credenciais"
-    ],
+    palavras: ["sap user id","encerrar atividade","encerrar","nova atividade","nao permite encerramento","bloqueando","credenciais","novo contrato","campo sap user","usuario nao existe no periodo","nao existe no periodo","chrs","com_app0003","dados mestre","dados pessoais","atividade bloqueada","criar atividade"],
     titulo: "SAP User ID bloqueando encerramento ou criação de atividade",
-    texto: `Sintoma: Terceiro com atividade ativa e finalizada não permite encerramento nem criação de nova atividade. Também pode aparecer o erro "Usuário não existe no período" ao tentar inserir nova atividade.
-
-Causa: O campo SAP User ID nos dados pessoais do terceiro está preenchido com um usuário SAP que não está ativo no período informado, bloqueando as operações.
-
-Solução:
-1. Acessar a transação /CHRS/COM_APP0003 — Manutenção de dados do terceiro
-2. Localizar o campo SAP User ID nos Dados Pessoais
-3. Apagar o conteúdo do campo
-4. Clicar em Gravar
-5. Rodar novamente a transação para inativar a atividade`,
+    texto: `Sintoma: Terceiro não permite encerramento nem criação de nova atividade. Pode aparecer erro: 'Usuário não existe no período'.\n\nCausa: O campo SAP User ID está preenchido com um usuário SAP inativo no período.\n\nSolução:\n1. Acessar a transação /CHRS/COM_APP0003\n2. Localizar o campo SAP User ID nos Dados Pessoais\n3. Apagar o conteúdo do campo\n4. Clicar em Gravar\n5. Rodar novamente a transação para inativar a atividade`,
     obs: "",
-    links: [{ label: "Abrir chamado no portal", url: "https://chreative.desk.ms" }]
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
   },
   {
-    palavras: [
-      "inativar terceiro", "inativação", "contrato não movimentado",
-      "pa30", "infotipo 9310", "status da atividade", "dados da atividade",
-      "zgepm069", "carga inicial", "ativo para inativo", "inativo"
-    ],
-    titulo: "Como inativar terceiro quando o contrato não foi movimentado no sistema",
-    texto: `Sintoma: Não é possível inativar terceiros cujo contrato não foi movimentado no sistema pelo fluxo normal do Contractors.
-
-Causa: O contrato não foi movimentado (geralmente por carga inicial), impossibilitando o uso da transação ZGEPM069 com data retroativa.
-
-Solução: Solicitar ao responsável do RH com permissão na PA30 que realize a inativação manualmente:
-
-1. Acessar a transação PA30 no SAP GUI
-2. Informar o número pessoal do terceiro
-3. Selecionar o Infotipo 9310, tipo 0001 — Dados da Atividade
-4. Localizar o campo Status da Atividade
-5. Alterar de "A Ativo" para "I Inativo"
-6. Salvar o registro`,
-    obs: "Essa ação requer perfil de acesso específico na PA30. Caso o cliente não tenha esse acesso, deve solicitar ao RH responsável pela manutenção dos dados mestre de terceiros.",
-    links: [{ label: "Abrir chamado no portal", url: "https://chreative.desk.ms" }]
+    palavras: ["inativar terceiro","inativacao","contrato nao movimentado","pa30","infotipo 9310","status da atividade","dados da atividade","zgepm069","carga inicial","ativo para inativo","inativo","inativacao"],
+    titulo: "Como inativar terceiro quando o contrato não foi movimentado",
+    texto: `Sintoma: Não é possível inativar terceiros pelo fluxo normal do Contractors.\n\nCausa: O contrato não foi movimentado no sistema (geralmente carga inicial).\n\nSolução:\n1. Acessar PA30 no SAP GUI\n2. Informar o número pessoal do terceiro\n3. Selecionar Infotipo 9310, tipo 0001 — Dados da Atividade\n4. Localizar o campo Status da Atividade\n5. Alterar de 'A Ativo' para 'I Inativo'\n6. Salvar`,
+    obs: "Requer perfil de acesso específico na PA30. Se o cliente não tiver acesso, solicitar ao RH responsável.",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["aso","data incorreta","data exame","data errada","it0028","infotipo 0028","retroativo","lancamento retroativo","data aso","exame aso"],
+    titulo: "Data do exame ASO incorreta — sistema exibe sempre a data mais recente",
+    texto: `Sintoma: A data do exame ASO está incorreta e o sistema não permite lançamento retroativo.\n\nCausa: O sistema exibe sempre a data do exame mais recente. Um registro com data errada foi lançado sobrepondo o correto.\n\nSolução:\n1. Acessar PA30\n2. Acessar o Infotipo IT0028\n3. Deletar o registro com a data incorreta\n4. A data correta passa a ser exibida normalmente`,
+    obs: "",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["rulag","tcom_0052c","regra de elegibilidade","pre-cadastro","precadastro","treinamento elegibilidade","valor nao encontrado","tabela nao encontrada","elegibilidade","subarea","centro","area de exame","acessos fisicos","acessos logicos"],
+    titulo: "Erro RULAG não encontrado na tabela /CHRS/TCOM_0052C no pré-cadastro",
+    texto: `Sintoma: Ao avançar o pré-cadastro: 'Valor RULAG não encontrado na tabela /CHRS/TCOM_0052C. Contate Administração de Terceiros'.\n\nCausa: Dados foram cadastrados e depois a Regra de Elegibilidade foi alterada. Os registros ficam vinculados à tabela antiga.\n\nSolução:\n1. Voltar à etapa onde o erro está ocorrendo\n2. Apagar o registro com erro\n3. Inserir novamente — o sistema puxará a tabela correta da nova Regra de Elegibilidade`,
+    obs: "Este erro pode ocorrer com qualquer dado vinculado à Regra de Elegibilidade: Área de Exame, Acessos Físicos e Acessos Lógicos.",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["dms","repositorio","erro check in","documento nao anexa","falha conexao","z_cad_ubu","oact","skpr09","basis","content server","check in","arquivar pdf","pre-cadastro documento"],
+    titulo: "Erro ao anexar documento no pré-cadastro — falha na conexão DMS",
+    texto: `Sintoma: Ao carregar documento aparece: 'Erro ao efetuar o check in e ao arquivar /tmp/aaa.pdf'. Documento não é anexado.\n\nCausa: Falha na conexão com o repositório DMS do Contractors.\n\nSolução:\n1. Verificar categoria de Storage em /CHRS/FND_CUS0004 — comutador DMSSC DMS\n2. Acessar OACT e verificar o Repositório de Conteúdo vinculado\n3. Acessar SKPR09 e executar Teste Individual no repositório\n4. Se retornar erro de conexão, acionar equipe de BASIS`,
+    obs: "Esse erro está fora do escopo do Contractors — é problema de infraestrutura a ser tratado pela equipe de BASIS.",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["caractere especial","documento nao carrega","pendente 0%","etapa 8","documentacao obrigatoria","documento travado","nome arquivo","descricao arquivo","copia cola","aso carrega"],
+    titulo: "Documento não carrega na etapa 8 — caractere especial no nome do arquivo",
+    texto: `Sintoma: Na etapa 8 (Documentação Obrigatória), documentos ficam com status 'Pendente 0%' e não carregam.\n\nCausa: Caractere especial invisível no nome ou descrição do arquivo (ex: 'Cli#nico' no lugar de 'Clínico').\n\nSolução:\n1. Solicitar ao usuário que remova o caractere especial do nome do arquivo\n2. Refazer o anexo com o nome corrigido\n3. Se persistir, abrir demanda de desenvolvimento`,
+    obs: "",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["cpf nao exibido","cpf zerado","cpf nao aparece","data emissao cpf","data futura cpf","ronda","receita federal","matricula terceiro","cpf incorreto","cpf errado","data emissao"],
+    titulo: "CPF não exibido nas telas e relatórios após efetivação da matrícula",
+    texto: `Sintoma: Após efetivação da matrícula, o CPF não aparece nas telas e relatórios. Na integração com Ronda/Receita Federal, CPF enviado zerado.\n\nCausa: Data de emissão do CPF cadastrada com data futura.\n\nSolução:\n1. Acessar a manutenção de dados do terceiro\n2. Inserir novamente o CPF com data de emissão correta (não futura)\n3. O CPF será exibido nas telas, relatórios e integrações`,
+    obs: "",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["pgr","documento desaparece","documento sumiu","documento excluido","workflow reprovado","rejeitado","irregular","contrato irregular","log workflow","elimina wf","aprovador excluiu"],
+    titulo: "Documento PGR desaparece após envio — reprovado pelo aprovador",
+    texto: `Sintoma: Empresa anexa o PGR, workflow é criado, porém o documento desaparece e o contrato fica Irregular.\n\nCausa: O documento foi reprovado e excluído pelo aprovador. Log registra: 'REJEITADO - ELIMINA WF'.\n\nSolução:\n1. Verificar o Log de Workflow no SAP para identificar quem rejeitou\n2. Orientar a empresa a anexar o documento novamente\n3. Para novos casos: solicitar contrato, documento e usuário para verificação no Log`,
+    obs: "",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
+  },
+  {
+    palavras: ["transferencia contrato","travada","business workplace","workitem","ecc","aprovacao travada","tela travada","nao avanca","workflow aprovado","ja aprovado","log workflow","transferencia aprovada"],
+    titulo: "Transferência de contrato travada ao aprovar no Business Workplace",
+    texto: `Sintoma: Ao clicar no workitem para aprovar transferência, a tela fica travada e não avança.\n\nCausa: O workflow já havia sido aprovado anteriormente, mas o workitem ainda aparecia na caixa de entrada.\n\nSolução:\n1. Verificar o Log de Workflow no SAP\n2. Se todas as etapas estiverem encerradas com resultado 'APROVADO', a transferência já foi concluída\n3. Nenhuma ação adicional é necessária`,
+    obs: "O workitem pode permanecer visível no Business Workplace mesmo após aprovação. Sempre consultar o Log antes de acionar o suporte.",
+    links: [{label:"Abrir chamado no portal",url:"https://chreative.desk.ms"}]
   }
 ];
 
-function normalizar(texto) {
-  return texto.toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s]/g, " ");
+function normalizar(t) {
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ");
 }
 
 function buscar() {
   const query = normalizar(document.getElementById("busca").value.trim());
   const resDiv = document.getElementById("resultado");
   const semDiv = document.getElementById("sem-resultado");
-
   resDiv.classList.remove("visivel");
   semDiv.classList.remove("visivel");
-
   if (!query || query.length < 2) return;
-
-  let melhorMatch = null;
-  let melhorPontos = 0;
-
+  let melhor = null, pontos = 0;
   for (const item of BASE) {
-    let pontos = 0;
+    let p = 0;
     for (const palavra of item.palavras) {
-      if (query.includes(normalizar(palavra))) {
-        pontos += palavra.split(" ").length;
-      }
+      if (query.includes(normalizar(palavra))) p += palavra.split(" ").length;
     }
-    if (pontos > melhorPontos) {
-      melhorPontos = pontos;
-      melhorMatch = item;
-    }
+    if (p > pontos) { pontos = p; melhor = item; }
   }
-
-  if (melhorMatch) {
-    document.getElementById("res-titulo").textContent = melhorMatch.titulo;
-    document.getElementById("res-texto").textContent = melhorMatch.texto;
-
+  if (melhor) {
+    document.getElementById("res-titulo").textContent = melhor.titulo;
+    document.getElementById("res-texto").textContent = melhor.texto;
     const obsEl = document.getElementById("res-obs");
-    if (melhorMatch.obs) {
-      obsEl.textContent = "⚠️ Observação: " + melhorMatch.obs;
-      obsEl.style.display = "block";
-    } else {
-      obsEl.style.display = "none";
-    }
-
-    const linksDiv = document.getElementById("res-links");
-    linksDiv.innerHTML = melhorMatch.links.map(l =>
-      `<a class="resultado-link" href="${l.url}" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <rect x="2" y="1" width="10" height="13" rx="1.5" fill="#F5A800" opacity="0.8"/>
-          <rect x="4" y="5" width="6" height="1" rx="0.5" fill="#1B3A6B"/>
-          <rect x="4" y="7.5" width="5" height="1" rx="0.5" fill="#1B3A6B"/>
-        </svg>
-        ${l.label}
-      </a>`
-    ).join("");
-
+    if (melhor.obs) { obsEl.textContent = "⚠️ " + melhor.obs; obsEl.style.display = "block"; }
+    else obsEl.style.display = "none";
+    document.getElementById("res-links").innerHTML = melhor.links.map(l =>
+      `<a class="resultado-link" href="${l.url}" target="_blank">› ${l.label}</a>`).join("");
     resDiv.classList.add("visivel");
-  } else {
-    semDiv.classList.add("visivel");
-  }
+  } else semDiv.classList.add("visivel");
 }
 
-function preencher(termo) {
-  document.getElementById("busca").value = termo;
-  buscar();
-}
+function preencher(t) { document.getElementById("busca").value = t; buscar(); }
 </script>
 </body>
 </html>
